@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download da Minha Aplicação Android</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
+        h1 { color: #333; }
+        input[type="tel"] { width: 80%; padding: 10px; margin: 20px 0; border: 1px solid #ccc; border-radius: 50px; text-align: center; font-size: 16px; }
+        button { background-color: #0070ba; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #005ea6; }
+        .status { margin-top: 20px; font-weight: bold; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Minha App Oficial</h1>
+        <p>Compre o acesso à aplicação por apenas 1.00€ via MB WAY.</p>
+        
+        <!-- Campo para o telemóvel do cliente -->
+        <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
+        <br>
+        <button onclick="iniciarPagamento()">Pagar com MB WAY</button>
+        
+        <div id="status_mensagem" class="status"></div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO DA GATEWAY (Substitua pelos dados fornecidos pela Ifthenpay/EuPago)
+        const API_KEY = "SUA_CHAVE_DE_API_AQUI"; 
+        const VALOR_APP = "1.00";
+
+        async function iniciarPagamento() {
+            const phone = document.getElementById('mbway_phone').value;
+            const statusDiv = document.getElementById('status_mensagem');
+
+            if (phone.length !== 9 || !phone.startsWith('9')) {
+                statusDiv.innerText = "Por favor, introduza um número MB WAY válido.";
+                statusDiv.style.color = "red";
+                return;
+            }
+
+            statusDiv.innerText = "A enviar notificação para o seu MB WAY... Aceite na App.";
+            statusDiv.style.color = "#0070ba";
+
+            try {
+                // 1. Faz o pedido à API da Gateway para disparar o MB WAY
+                // NOTA: O URL exato é fornecido no manual da Ifthenpay/EuPago após criar conta
+                let resposta = await fetch(`https://gateway.pt{API_KEY}&telemovel=${phone}&valor=${VALOR_APP}`);
+                let dados = await resposta.json();
+
+                if (dados.sucesso) {
+                    const idTransacao = dados.id_transacao;
+                    // 2. Inicia a verificação contínua para saber se o cliente já pagou
+                    verificarEstadoPagamento(idTransacao);
+                } else {
+                    statusDiv.innerText = "Erro ao processar o MB WAY. Tente novamente.";
+                    statusDiv.style.color = "red";
+                }
+            } catch (erro) {
+                statusDiv.innerText = "Erro de ligação. Tente mais tarde.";
+                statusDiv.style.color = "red";
+            }
+        }
+
+        async function verificarEstadoPagamento(idTransacao) {
+            const statusDiv = document.getElementById('status_mensagem');
+            
+            // Corre um loop que pergunta à API a cada 3 segundos se o pagamento foi feito
+            let intervalo = setInterval(async () => {
+                try {
+                    let resposta = await fetch(`https://gateway.pt{API_KEY}&id=${idTransacao}`);
+                    let dados = await resposta.json();
+
+                    if (dados.estado === "PAGO") {
+                        clearInterval(intervalo);
+                        statusDiv.innerText = "Pagamento confirmado! O download vai começar...";
+                        statusDiv.style.color = "green";
+                        
+                        // Redireciona o utilizador para o link do ficheiro APK (Passo 5)
+                        setTimeout(() => {
+                            window.location.href = "URL_DO_SEU_FICHEIRO_APK_AQUI";
+                        }, 2000);
+                    } else if (dados.estado === "RECUSADO" || dados.estado === "EXPIRADO") {
+                        clearInterval(intervalo);
+                        statusDiv.innerText = "Pagamento recusado ou expirado no MB WAY.";
+                        statusDiv.style.color = "red";
+                    }
+                } catch (e) {
+                    // Ignora erros temporários de rede e continua a tentar
+                }
+            }, 3000); // 3000 milissegundos = 3 segundos
+        }
+    </script>
+</body>
+</html>
