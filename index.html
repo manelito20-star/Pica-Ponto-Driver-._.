@@ -7,37 +7,31 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background-color: #f4f4f9; }
         .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 450px; }
-        h1 { color: #333; margin-bottom: 20px; }
-        .btn-download { background-color: #28a745; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 25px; width: 75%; }
-        .btn-download:hover { background-color: #218838; }
-        .seccao-pagamento { border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px; }
+        h1 { color: #333; margin-bottom: 5px; }
+        .subtitulo { color: #666; font-size: 14px; margin-bottom: 25px; }
+        .seccao-pagamento { border-top: 1px solid #eee; padding-top: 10px; }
         input[type="tel"] { width: 70%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 50px; text-align: center; font-size: 16px; }
-        .btn-pagar { background-color: #0070ba; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 80%; }
+        .btn-pagar { background-color: #0070ba; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 75%; }
         .btn-pagar:hover { background-color: #005ea6; }
         .status { margin-top: 20px; font-weight: bold; color: #666; }
-        .info-campanha { font-size: 12px; color: #777; margin-top: 15px; line-height: 1.4; border-top: 1px dashed #ddd; padding-top: 10px; }
+        .info-campanha { font-size: 12px; color: #777; margin-top: 20px; line-height: 1.4; border-top: 1px dashed #ddd; padding-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h1>PicaPonto Driver TVDE</h1>
-        
-        <p>Experimente a aplicação totalmente grátis durante 30 dias:</p>
-        <!-- LINK DO GOOGLE DRIVE JÁ CONFIGURADO E ATIVO -->
-        <a href="https://google.com" target="_blank" class="btn-download">Descarregar APK (Grátis)</a>
+        <div class="subtitulo">Adquira a sua licença vitalícia oficial</div>
         
         <div class="seccao-pagamento">
-            <h3>Ativar Aplicação (Licença Vitalícia)</h3>
-            <p>Se o seu período de teste terminou, insira o seu número MB WAY para obter o código de ativação por apenas <span id="preco_dinamico" style="font-weight: bold; color: #0070ba;">...</span>.</p>
+            <p>Insira o seu número telemóvel associado ao MB WAY para efetuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba;">...</span> e receber o link de download.</p>
             
             <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
             <br>
-            <button class="btn-pagar" onclick="iniciarPagamento()">Obter Código via MB WAY</button>
+            <button class="btn-pagar" onclick="iniciarPagamento()">Pagar com MB WAY</button>
             
             <div id="status_mensagem" class="status"></div>
 
-            <!-- TEXTO EXPLICATIVO DAS CAMPANHAS -->
             <div class="info-campanha">
                 <strong>Tabela de Preços (Campanha Lançamento):</strong><br>
                 Até dia 15 de novembro 2026: 1€<br>
@@ -51,12 +45,9 @@
         // =========================================================================
         // CONFIGURAÇÃO DE DATAS E CHAVES DA GATEWAY
         // =========================================================================
-        
-        // Datas limite automáticas (Em JavaScript os meses começam no 0. 10 = Novembro, 11 = Dezembro)
         const DATA_FIM_FASE1 = new Date(2026, 10, 15, 23, 59, 59); // 15 de Nov 2026
         const DATA_FIM_FASE2 = new Date(2026, 11, 31, 23, 59, 59); // 31 de Dez 2026
 
-        // CHAVES DE API (Substitua com as 3 chaves secretas que a Ifthenpay/EuPago lhe fornecer)
         const CHAVE_1_EURO  = "SUA_CHAVE_FASE_1_EURO";
         const CHAVE_3_EUROS = "SUA_CHAVE_FASE_3_EUROS";
         const CHAVE_5_EUROS = "SUA_CHAVE_FASE_5_EUROS";
@@ -64,7 +55,6 @@
         let API_KEY_ATIVA;
         let VALOR_APP;
 
-        // O sistema valida a data atual no telemóvel/computador do cliente
         const dataAtual = new Date();
 
         if (dataAtual <= DATA_FIM_FASE1) {
@@ -78,7 +68,6 @@
             VALOR_APP = "5.00";
         }
 
-        // Atualiza dinamicamente o texto do preço mal a página carrega
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("preco_dinamico").innerText = VALOR_APP + "€";
         });
@@ -86,7 +75,6 @@
         // =========================================================================
         // FUNÇÕES DE COMUNICAÇÃO COM O MB WAY
         // =========================================================================
-        
         async function iniciarPagamento() {
             const phone = document.getElementById('mbway_phone').value;
             const statusDiv = document.getElementById('status_mensagem');
@@ -101,7 +89,6 @@
             statusDiv.style.color = "#0070ba";
 
             try {
-                // Pedido à API da Gateway (O URL exato deve ser substituído pelo do manual da EuPago/Ifthenpay)
                 let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&telemovel=${phone}&valor=${VALOR_APP}`);
                 let dados = await resposta.json();
 
@@ -122,18 +109,21 @@
             
             let intervalo = setInterval(async () => {
                 try {
-                    // Consulta o estado da transação de 3 em 3 segundos
                     let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&id=${idTransacao}`);
                     let dados = await resposta.json();
 
                     if (dados.estado === "PAGO") {
                         clearInterval(intervalo);
-                        // Revela o código fixo configurado no Android Studio
+                        // O DOWNLOAD E O CÓDIGO SÓ SÃO REVELADOS AQUI APÓS A CONFIRMAÇÃO DO BANCO
                         statusDiv.innerHTML = `
-                            <div style="background-color: #e6f4ea; border: 1px solid #137333; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                                <p style="color: #137333; font-weight: bold; margin-top: 0; font-size: 16px;">✔ Pagamento Confirmado!</p>
-                                <p style="color: #333;">Insira o seguinte código de ativação na sua aplicação para a desbloquear para sempre:</p>
-                                <h2 style="background: white; padding: 10px; border: 1px dashed #333; display: inline-block; letter-spacing: 2px; margin: 10px 0;">AppSuperSegura2026</h2>
+                            <div style="background-color: #e6f4ea; border: 1px solid #137333; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left;">
+                                <p style="color: #137333; font-weight: bold; margin-top: 0; font-size: 16px;">✔ Pagamento Confirmado com Sucesso!</p>
+                                
+                                <p style="margin-bottom: 15px;"><strong>Passo 1:</strong> Clique no botão abaixo para descarregar a aplicação:</p>
+                                <a href="https://google.com" target="_blank" style="background-color: #28a745; color: white; border: none; padding: 12px 25px; font-size: 14px; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 15px; text-align: center; width: 80%;">Descarregar PicaPonto APK</a>
+                                
+                                <p style="margin-bottom: 5px;"><strong>Passo 2:</strong> Use este código de ativação para desbloquear a app após instalar:</p>
+                                <h2 style="background: white; padding: 8px; border: 1px dashed #333; display: inline-block; letter-spacing: 2px; margin: 5px 0;">AppSuperSegura2026</h2>
                             </div>
                         `;
                     } else if (dados.estado === "RECUSADO" || dados.estado === "EXPIRADO") {
@@ -142,7 +132,7 @@
                         statusDiv.style.color = "red";
                     }
                 } catch (e) {
-                    // Ignora falhas temporárias de rede e continua o loop de verificação
+                    // Continua a verificar em caso de erro de rede
                 }
             }, 3000);
         }
