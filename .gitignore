@@ -8,6 +8,8 @@ local.properties
 
 # Log/OS Files
 *.log
+.DS_Store
+Thumbs.db
 
 # Android Studio generated files and folders
 captures/
@@ -16,20 +18,20 @@ captures/
 *.aab
 *.apk
 output-metadata.json
+.navigation/
 
-# IntelliJ
+# IntelliJ / Android Studio settings
 *.iml
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+# Nota: Removido o misc.xml para preservar as configurações de JDK do projeto
 
-# Keystore files
+# Keystore files (Muito importante manter protegido)
 *.jks
 *.keystore
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
-# Android Profiling
+# Android Profiling & Lint
 *.hprof
+.lint/
