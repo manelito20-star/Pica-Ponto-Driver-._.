@@ -34,3 +34,14 @@ O **Pica Ponto Driver** é uma aplicação Android desenvolvida nativamente em *
 * **Rodapé Profissional:** Identificação da app e carimbo com a data e hora exata da exportação (`Exportado a dd/MM/yyyy às HH:mm`).
 * **Campo oculto de ediçao** No Separador da lei TVDE existe um campo oculto de ediçao no final da página que abre apos 5 cliques, apos abertura coloquem um codigo vosso para que nao esueçam, devera ser sempre usado para reentrar novamente nesse espaço, por questões legais nao pode ficar ficar visivel para ediçao livre.
 
+---
+
+## ⚖️ Termo de Responsabilidade e Salvaguarda Legal (Disclaimer)
+
+**Por favor, leia atentamente as seguintes condições antes de utilizar a aplicação:**
+
+* **Carácter Informativo e Auxiliar:** O **Pica Ponto Driver** é uma ferramenta de desenvolvimento independente e de uso pessoal, concebida para auxiliar na organização do tempo de trabalho. **Esta aplicação não possui homologação oficial pelas autoridades competentes nem substitui os mecanismos formais de controlo de tempo exigidos por lei.**
+* **Aproximação Legal:** À data, não existem aplicações móveis comerciais oficialmente validadas para este efeito. O desenvolvimento desta app teve como critério a aproximação máxima e rigorosa aos requisitos descritos na legislação em vigor para motoristas e operadores TVDE. No entanto, devido à complexidade técnica e jurídica, o cumprimento total de todas as obrigações legais através desta ferramenta não pode ser garantido.
+* **Uso por Conta e Risco:** A utilização desta aplicação em contexto pessoal ou profissional é da **exclusiva responsabilidade do utilizador**. 
+* **Exclusão de Responsabilidade:** O criador/desenvolvedor desta aplicação **não se responsabiliza** por quaisquer coimas, sanções, litígios laborais, perda de dados, divergências de quilometragem/horários com operadores (Uber, Bolt, etc.), ou qualquer outro dano direto ou indireto decorrente do uso ou da interpretação dos dados gerados por esta app.
+
