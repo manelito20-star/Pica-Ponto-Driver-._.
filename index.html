@@ -29,6 +29,7 @@
         .btn-pagar:hover { background-color: #005ea6; }
         .status { margin-top: 20px; font-weight: bold; color: #666; font-size: 14px; text-align: center; }
         .info-campanha { font-size: 12px; color: #777; margin-top: 20px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 15px; text-align: center; }
+        .badge-desconto { background-color: #d93025; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 5px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -57,7 +58,7 @@
             <h3>Funcionalidades Principais</h3>
             <ul>
                 <li><strong>Registo de Turnos:</strong> Controle exato das horas de entrada e saída.</li>
-                <li><strong>Gestão de Ganhos:</strong> Registe a faturação diária de todas as plataformas (Uber, Bolt, etc.).</li>
+                <li><strong>Gestão de Ganhos:</strong> Registe a faturamento diária de todas as plataformas (Uber, Bolt, etc.).</li>
                 <li><strong>Estatísticas TVDE:</strong> Relatórios detalhados de rentabilidade por hora e quilómetro.</li>
                 <li><strong>Alertas de Descanso:</strong> Avisos automáticos para cumprir a legislação em vigor.</li>
             </ul>
@@ -65,7 +66,10 @@
 
         <!-- Secção de Pagamento Trancada -->
         <div class="seccao-pagamento">
-            <p>Insira o seu número MB WAY para efectuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba; font-size: 18px;">...</span> e libertar o acesso imediato à aplicação.</p>
+            <!-- Etiqueta de Destaque para o Desconto -->
+            <div id="tag_desconto" class="badge-desconto" style="display: none;">Preço Desconto de Lançamento</div>
+            
+            <p>Insira o seu número telemóvel associado ao MB WAY para efetuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba; font-size: 18px;">...</span> e libertar o acesso imediato à aplicação.</p>
             
             <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
             <br>
@@ -74,10 +78,10 @@
             <div id="status_mensagem" class="status"></div>
 
             <div class="info-campanha">
-                <strong>Tabela de Preços (Campanha Lançamento):</strong><br>
-                Até dia 15 de novembro 2026: 1€<br>
-                Até ao final do ano 2026: 3€<br>
-                Em 2027: 5€
+                <strong>Progressão de Preços (Campanha de Lançamento):</strong><br>
+                Até dia 15 de novembro 2026: 1€ (Desconto Lançamento)<br>
+                Até ao final do ano 2026: 3€ (Desconto Lançamento)<br>
+                Em 2027: 5€ (Preço Final da Licença)
             </div>
         </div>
     </div>
@@ -93,22 +97,31 @@
 
         let API_KEY_ATIVA;
         let VALOR_APP;
+        let mostrarDesconto = false;
 
         const dataAtual = new Date();
 
         if (dataAtual <= DATA_FIM_FASE1) {
             API_KEY_ATIVA = CHAVE_1_EURO;
             VALOR_APP = "1.00";
+            mostrarDesconto = true;
         } else if (dataAtual <= DATA_FIM_FASE2) {
             API_KEY_ATIVA = CHAVE_3_EUROS;
             VALOR_APP = "3.00";
+            mostrarDesconto = true;
         } else {
             API_KEY_ATIVA = CHAVE_5_EUROS;
             VALOR_APP = "5.00";
+            mostrarDesconto = false; // Atingiu o preço final de 5€ em 2027
         }
 
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("preco_dinamico").innerText = VALOR_APP + "€";
+            
+            // Ativa o aviso visual vermelho de desconto apenas durante as fases de 1€ e 3€
+            if (mostrarDesconto) {
+                document.getElementById("tag_desconto").style.display = "inline-block";
+            }
         });
 
         async function iniciarPagamento() {
@@ -157,20 +170,4 @@
                                 <p style="margin-bottom: 15px;"><strong>Passo 1:</strong> Clique no botão abaixo para descarregar a aplicação:</p>
                                 <a href="https://google.com" target="_blank" style="background-color: #28a745; color: white; border: none; padding: 12px 25px; font-size: 14px; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 15px; text-align: center; width: 85%;">Descarregar PicaPonto APK</a>
                                 
-                                <p style="margin-bottom: 5px;"><strong>Passo 2:</strong> Use este código de ativação para desbloquear a app após instalar:</p>
-                                <h2 style="background: white; padding: 8px; border: 1px dashed #333; display: inline-block; letter-spacing: 2px; margin: 5px 0;">AppSuperSegura2026</h2>
-                            </div>
-                        `;
-                    } else if (dados.estado === "RECUSADO" || dados.estado === "EXPIRADO") {
-                        clearInterval(intervalo);
-                        statusDiv.innerText = "Pagamento recusado ou expirado no MB WAY.";
-                        statusDiv.style.color = "red";
-                    }
-                } catch (e) {
-                    // Ignora erros
-                }
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+Use code with caution.
