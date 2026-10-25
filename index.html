@@ -3,36 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download da Minha Aplicação Android</title>
+    <title>Minha Aplicação Android</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
-        h1 { color: #333; }
-        input[type="tel"] { width: 80%; padding: 10px; margin: 20px 0; border: 1px solid #ccc; border-radius: 50px; text-align: center; font-size: 16px; }
-        button { background-color: #0070ba; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; }
-        button:hover { background-color: #005ea6; }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background-color: #f4f4f9; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 450px; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .btn-download { background-color: #28a745; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 25px; }
+        .btn-download:hover { background-color: #218838; }
+        .seccao-pagamento { border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px; }
+        input[type="tel"] { width: 70%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 50px; text-align: center; font-size: 16px; }
+        .btn-pagar { background-color: #0070ba; color: white; border: none; padding: 12px 25px; font-size: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .btn-pagar:hover { background-color: #005ea6; }
         .status { margin-top: 20px; font-weight: bold; color: #666; }
+        .info-campanha { font-size: 12px; color: #777; margin-top: 10px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h1>Minha App Oficial</h1>
-        <p>Compre o acesso à aplicação por apenas 1.00€ via MB WAY.</p>
         
-        <!-- Campo para o telemóvel do cliente -->
-        <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
-        <br>
-        <button onclick="iniciarPagamento()">Pagar com MB WAY</button>
+        <p>Experimente a aplicação totalmente grátis durante 30 dias:</p>
+        <!-- BOTÃO DE DOWNLOAD (Substitua pelo link do seu APK) -->
+        <a href="URL_DO_SEU_FICHEIRO_APK_AQUI" class="btn-download">Descarregar APK (Grátis)</a>
         
-        <div id="status_mensagem" class="status"></div>
+        <div class="seccao-pagamento">
+            <h3>Ativar Aplicação (Licença Vitalícia)</h3>
+            <p>Se o seu período de teste terminou, insira o seu número MB WAY para obter o código de ativação por apenas <span id="preco_dinamico" style="font-weight: bold; color: #0070ba;">...</span>.</p>
+            
+            <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
+            <br>
+            <button class="btn-pagar" onclick="iniciarPagamento()">Obter Código via MB WAY</button>
+            
+            <div id="status_mensagem" class="status"></div>
+
+            <!-- TEXTO EXPLICATIVO DAS CAMPANHAS -->
+            <div class="info-campanha">
+                Até dia 15 de novembro: 1€<br>
+                Até ao final do ano 2026: 3€<br>
+                Em 2027: 5€
+            </div>
+        </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO DA GATEWAY (Substitua pelos dados fornecidos pela Ifthenpay/EuPago)
-        const API_KEY = "SUA_CHAVE_DE_API_AQUI"; 
-        const VALOR_APP = "1.00";
+        // =========================================================================
+        // CONFIGURAÇÃO DE DATAS E CHAVES DA GATEWAY
+        // =========================================================================
+        
+        // Datas limite (Nota: Em JavaScript os meses começam no 0. 10 = Novembro, 11 = Dezembro)
+        const DATA_FIM_FASE1 = new Date(2026, 10, 15, 23, 59, 59); // 15 de Nov (Fim dos 1€)
+        const DATA_FIM_FASE2 = new Date(2026, 11, 31, 23, 59, 59); // 31 de Dez (Fim dos 3€)
 
+        // CHAVES DE API (Substitua com as 3 chaves que a Ifthenpay/EuPago lhe fornecer)
+        const CHAVE_1_EURO  = "SUA_CHAVE_FASE_1_EURO";
+        const CHAVE_3_EUROS = "SUA_CHAVE_FASE_3_EUROS";
+        const CHAVE_5_EUROS = "SUA_CHAVE_FASE_5_EUROS";
+
+        // Variáveis que o sistema vai preencher sozinho
+        let API_KEY_ATIVA;
+        let VALOR_APP;
+
+        // Determinar o preço e a chave com base no dia de hoje
+        const dataAtual = new Date();
+
+        if (dataAtual <= DATA_FIM_FASE1) {
+            API_KEY_ATIVA = CHAVE_1_EURO;
+            VALOR_APP = "1.00";
+        } else if (dataAtual <= DATA_FIM_FASE2) {
+            API_KEY_ATIVA = CHAVE_3_EUROS;
+            VALOR_APP = "3.00";
+        } else {
+            API_KEY_ATIVA = CHAVE_5_EUROS;
+            VALOR_APP = "5.00";
+        }
+
+        // Coloca o preço correto no texto do HTML assim que a página abre
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("preco_dinamico").innerText = VALOR_APP + "€";
+        });
+
+        // =========================================================================
+        // FUNÇÕES DE COMUNICAÇÃO COM O MB WAY
+        // =========================================================================
+        
         async function iniciarPagamento() {
             const phone = document.getElementById('mbway_phone').value;
             const statusDiv = document.getElementById('status_mensagem');
@@ -43,19 +97,16 @@
                 return;
             }
 
-            statusDiv.innerText = "A enviar notificação para o seu MB WAY... Aceite na App.";
+            statusDiv.innerText = `A enviar notificação de ${VALOR_APP}€ para o seu MB WAY... Aceite na App.`;
             statusDiv.style.color = "#0070ba";
 
             try {
-                // 1. Faz o pedido à API da Gateway para disparar o MB WAY
-                // NOTA: O URL exato é fornecido no manual da Ifthenpay/EuPago após criar conta
-                let resposta = await fetch(`https://gateway.pt{API_KEY}&telemovel=${phone}&valor=${VALOR_APP}`);
+                // Envia o pedido de pagamento usando a chave dinâmica correspondente à data
+                let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&telemovel=${phone}&valor=${VALOR_APP}`);
                 let dados = await resposta.json();
 
                 if (dados.sucesso) {
-                    const idTransacao = dados.id_transacao;
-                    // 2. Inicia a verificação contínua para saber se o cliente já pagou
-                    verificarEstadoPagamento(idTransacao);
+                    verificarEstadoPagamento(dados.id_transacao);
                 } else {
                     statusDiv.innerText = "Erro ao processar o MB WAY. Tente novamente.";
                     statusDiv.style.color = "red";
@@ -69,21 +120,20 @@
         async function verificarEstadoPagamento(idTransacao) {
             const statusDiv = document.getElementById('status_mensagem');
             
-            // Corre um loop que pergunta à API a cada 3 segundos se o pagamento foi feito
             let intervalo = setInterval(async () => {
                 try {
-                    let resposta = await fetch(`https://gateway.pt{API_KEY}&id=${idTransacao}`);
+                    let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&id=${idTransacao}`);
                     let dados = await resposta.json();
 
                     if (dados.estado === "PAGO") {
                         clearInterval(intervalo);
-                        statusDiv.innerText = "Pagamento confirmado! O download vai começar...";
-                        statusDiv.style.color = "green";
-                        
-                        // Redireciona o utilizador para o link do ficheiro APK (Passo 5)
-                        setTimeout(() => {
-                            window.location.href = "URL_DO_SEU_FICHEIRO_APK_AQUI";
-                        }, 2000);
+                        statusDiv.innerHTML = `
+                            <div style="background-color: #e6f4ea; border: 1px solid #137333; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                                <p style="color: #137333; font-weight: bold; margin-top: 0;">Pagamento Confirmado!</p>
+                                <p style="color: #333;">Insira o seguinte código de ativação na sua aplicação para a desbloquear:</p>
+                                <h2 style="background: white; padding: 10px; border: 1px dashed #333; display: inline-block; letter-spacing: 2px;">AppSuperSegura2026</h2>
+                            </div>
+                        `;
                     } else if (dados.estado === "RECUSADO" || dados.estado === "EXPIRADO") {
                         clearInterval(intervalo);
                         statusDiv.innerText = "Pagamento recusado ou expirado no MB WAY.";
@@ -92,7 +142,7 @@
                 } catch (e) {
                     // Ignora erros temporários de rede e continua a tentar
                 }
-            }, 3000); // 3000 milissegundos = 3 segundos
+            }, 3000);
         }
     </script>
 </body>
