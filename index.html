@@ -6,11 +6,16 @@
     <title>PicaPonto Driver TVDE - Oficial</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 40px 20px; background-color: #f4f4f9; color: #333; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: inline-block; max-width: 480px; text-align: left; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: inline-block; max-width: 500px; text-align: left; }
         h1 { color: #111; text-align: center; margin-bottom: 5px; font-size: 26px; }
         .subtitulo { color: #666; font-size: 14px; text-align: center; margin-bottom: 25px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Secção de Informações da App (Substitui o README) */
+        /* Grelha de Imagens (Grid das 6 Imagens JPEG) */
+        .screenshot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .screenshot-grid img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee; transition: transform 0.2s; cursor: pointer; }
+        .screenshot-grid img:hover { transform: scale(1.05); }
+
+        /* Secção de Informações da App */
         .info-app { background-color: #fafafa; border: 1px solid #eef; padding: 20px; border-radius: 8px; margin-bottom: 25px; }
         .info-app h3 { margin-top: 0; color: #0070ba; font-size: 16px; border-bottom: 2px solid #0070ba; padding-bottom: 5px; display: inline-block; }
         .info-app ul { padding-left: 20px; margin: 10px 0; font-size: 14px; line-height: 1.5; }
@@ -32,7 +37,17 @@
         <h1>PicaPonto Driver TVDE</h1>
         <div class="subtitulo">Licença Vitalícia Oficial</div>
         
-        <!-- SECÇÃO INFORMATIVA DA APLICAÇÃO (MODIFIQUE OS TEXTOS ABAIXO COMO QUISER) -->
+        <!-- APRESENTAÇÃO DE IMAGENS (.JPEG CONFIGURADO) -->
+        <div class="screenshot-grid">
+            <img src="1.jpeg" alt="Ecrã 1" onclick="window.open(this.src)">
+            <img src="2.jpeg" alt="Ecrã 2" onclick="window.open(this.src)">
+            <img src="3.jpeg" alt="Ecrã 3" onclick="window.open(this.src)">
+            <img src="4.jpeg" alt="Ecrã 4" onclick="window.open(this.src)">
+            <img src="5.jpeg" alt="Ecrã 5" onclick="window.open(this.src)">
+            <img src="6.jpeg" alt="Ecrã 6" onclick="window.open(this.src)">
+        </div>
+
+        <!-- Secção Informativa da Aplicação -->
         <div class="info-app">
             <h3>Sobre a Aplicação</h3>
             <p style="font-size: 14px; margin: 5px 0 15px 0; line-height: 1.4;">
@@ -48,9 +63,9 @@
             </ul>
         </div>
 
-        <!-- SECÇÃO DE PAGAMENTO TRANCADA -->
+        <!-- Secção de Pagamento Trancada -->
         <div class="seccao-pagamento">
-            <p>Insira o seu número MB WAY para efetuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba; font-size: 18px;">...</span> e libertar o acesso imediato à aplicação.</p>
+            <p>Insira o seu número MB WAY para efectuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba; font-size: 18px;">...</span> e libertar o acesso imediato à aplicação.</p>
             
             <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
             <br>
@@ -152,7 +167,7 @@
                         statusDiv.style.color = "red";
                     }
                 } catch (e) {
-                    // Ignora erros temporários de rede
+                    // Ignora erros
                 }
             }, 3000);
         }
