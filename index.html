@@ -1,173 +1,126 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicaPonto Driver TVDE - Oficial</title>
+    <title>Pica Ponto Driver - Gestão Profissional TVDE</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 40px 20px; background-color: #f4f4f9; color: #333; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: inline-block; max-width: 500px; text-align: left; }
-        h1 { color: #111; text-align: center; margin-bottom: 5px; font-size: 26px; }
-        .subtitulo { color: #666; font-size: 14px; text-align: center; margin-bottom: 25px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Grelha de Imagens (Grid das 6 Imagens JPEG) */
-        .screenshot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .screenshot-grid img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee; transition: transform 0.2s; cursor: pointer; }
-        .screenshot-grid img:hover { transform: scale(1.05); }
-
-        /* Secção de Informações da App */
-        .info-app { background-color: #fafafa; border: 1px solid #eef; padding: 20px; border-radius: 8px; margin-bottom: 25px; }
-        .info-app h3 { margin-top: 0; color: #0070ba; font-size: 16px; border-bottom: 2px solid #0070ba; padding-bottom: 5px; display: inline-block; }
-        .info-app ul { padding-left: 20px; margin: 10px 0; font-size: 14px; line-height: 1.5; }
-        .info-app li { margin-bottom: 8px; }
-
-        /* Secção de Pagamento */
-        .seccao-pagamento { border-top: 2px dashed #eee; padding-top: 20px; text-align: center; }
-        .seccao-pagamento p { font-size: 15px; line-height: 1.4; margin-bottom: 15px; }
-        input[type="tel"] { width: 80%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 50px; text-align: center; font-size: 18px; font-weight: bold; }
-        .btn-pagar { background-color: #0070ba; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 85%; margin-top: 5px; box-shadow: 0 4px 6px rgba(0,112,186,0.2); }
-        .btn-pagar:hover { background-color: #005ea6; }
-        .status { margin-top: 20px; font-weight: bold; color: #666; font-size: 14px; text-align: center; }
-        .info-campanha { font-size: 12px; color: #777; margin-top: 20px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 15px; text-align: center; }
-        .badge-desconto { background-color: #d93025; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 5px; text-transform: uppercase; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f6f8fa;
+        }
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e1e4e8;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        h1 {
+            font-size: 2.2em;
+            color: #1f2328;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2em;
+            color: #57606a;
+            margin-bottom: 25px;
+        }
+        .download-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn-download {
+            display: inline-block;
+            background-color: #2ea44f;
+            color: white;
+            padding: 14px 32px;
+            font-size: 1.25em;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-download:hover {
+            background-color: #2c974b;
+        }
+        .btn-download:active {
+            transform: scale(0.98);
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #1f2328;
+            border-bottom: 1px solid #d0d7de;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .note-block {
+            background-color: #fff8c5;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 4.5px solid #d4a72c;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfdfd;
+        }
+        .screenshot-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #d0d7de;
+        }
+        .app-screenshot {
+            max-width: 100%;
+            max-height: 550px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            border: 1px solid #d0d7de;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>PicaPonto Driver TVDE</h1>
-        <div class="subtitulo">Licença Vitalícia Oficial</div>
-        
-        <!-- APRESENTAÇÃO DE IMAGENS (.JPEG CONFIGURADO) -->
-        <div class="screenshot-grid">
-            <img src="1.jpeg" alt="Ecrã 1" onclick="window.open(this.src)">
-            <img src="2.jpeg" alt="Ecrã 2" onclick="window.open(this.src)">
-            <img src="3.jpeg" alt="Ecrã 3" onclick="window.open(this.src)">
-            <img src="4.jpeg" alt="Ecrã 4" onclick="window.open(this.src)">
-            <img src="5.jpeg" alt="Ecrã 5" onclick="window.open(this.src)">
-            <img src="6.jpeg" alt="Ecrã 6" onclick="window.open(this.src)">
+    <div class="container">
+        <div class="header">
+            <h1>Pica Ponto Driver 𚟔</h1>
+            <p class="subtitle">Solução Integrada de Controlo de Horários, Rendimentos e Conformidade Legal para Motoristas TVDE 📱📊</p>
         </div>
 
-        <!-- Secção Informativa da Aplicação -->
-        <div class="info-app">
-            <h3>Sobre a Aplicação</h3>
-            <p style="font-size: 14px; margin: 5px 0 15px 0; line-height: 1.4;">
-                O <strong>PicaPonto Driver TVDE</strong> é a ferramenta indispensável para motoristas profissionais em Portugal. Otimize o seu tempo de condução e controle os seus ganhos de forma simples.
-            </p>
-            
-            <h3>Funcionalidades Principais</h3>
-            <ul>
-                <li><strong>Registo de Turnos:</strong> Controle exato das horas de entrada e saída.</li>
-                <li><strong>Gestão de Ganhos:</strong> Registe a faturamento diária de todas as plataformas (Uber, Bolt, etc.).</li>
-                <li><strong>Estatísticas TVDE:</strong> Relatórios detalhados de rentabilidade por hora e quilómetro.</li>
-                <li><strong>Alertas de Descanso:</strong> Avisos automáticos para cumprir a legislação em vigor.</li>
-            </ul>
-        </div>
-
-        <!-- Secção de Pagamento Trancada -->
-        <div class="seccao-pagamento">
-            <!-- Etiqueta de Destaque para o Desconto -->
-            <div id="tag_desconto" class="badge-desconto" style="display: none;">Preço Desconto de Lançamento</div>
-            
-            <p>Insira o seu número telemóvel associado ao MB WAY para efetuar o pagamento de <span id="preco_dinamico" style="font-weight: bold; color: #0070ba; font-size: 18px;">...</span> e libertar o acesso imediato à aplicação.</p>
-            
-            <input type="tel" id="mbway_phone" placeholder="9xxxxxxxx" maxlength="9">
-            <br>
-            <button class="btn-pagar" onclick="iniciarPagamento()">Pagar com MB WAY</button>
-            
-            <div id="status_mensagem" class="status"></div>
-
-            <div class="info-campanha">
-                <strong>Progressão de Preços (Campanha de Lançamento):</strong><br>
-                Até dia 15 de novembro 2026: 1€ (Desconto Lançamento)<br>
-                Até ao final do ano 2026: 3€ (Desconto Lançamento)<br>
-                Em 2027: 5€ (Preço Final da Licença)
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // CONFIGURAÇÃO DE DATAS E CHAVES DA GATEWAY
-        const DATA_FIM_FASE1 = new Date(2026, 10, 15, 23, 59, 59); 
-        const DATA_FIM_FASE2 = new Date(2026, 11, 31, 23, 59, 59); 
-
-        const CHAVE_1_EURO  = "SUA_CHAVE_FASE_1_EURO";
-        const CHAVE_3_EUROS = "SUA_CHAVE_FASE_3_EUROS";
-        const CHAVE_5_EUROS = "SUA_CHAVE_FASE_5_EUROS";
-
-        let API_KEY_ATIVA;
-        let VALOR_APP;
-        let mostrarDesconto = false;
-
-        const dataAtual = new Date();
-
-        if (dataAtual <= DATA_FIM_FASE1) {
-            API_KEY_ATIVA = CHAVE_1_EURO;
-            VALOR_APP = "1.00";
-            mostrarDesconto = true;
-        } else if (dataAtual <= DATA_FIM_FASE2) {
-            API_KEY_ATIVA = CHAVE_3_EUROS;
-            VALOR_APP = "3.00";
-            mostrarDesconto = true;
-        } else {
-            API_KEY_ATIVA = CHAVE_5_EUROS;
-            VALOR_APP = "5.00";
-            mostrarDesconto = false; // Atingiu o preço final de 5€ em 2027
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("preco_dinamico").innerText = VALOR_APP + "€";
-            
-            // Ativa o aviso visual vermelho de desconto apenas durante as fases de 1€ e 3€
-            if (mostrarDesconto) {
-                document.getElementById("tag_desconto").style.display = "inline-block";
-            }
-        });
-
-        async function iniciarPagamento() {
-            const phone = document.getElementById('mbway_phone').value;
-            const statusDiv = document.getElementById('status_mensagem');
-
-            if (phone.length !== 9 || !phone.startsWith('9')) {
-                statusDiv.innerText = "Por favor, introduza um número MB WAY válido.";
-                statusDiv.style.color = "red";
-                return;
-            }
-
-            statusDiv.innerText = `A enviar notificação de ${VALOR_APP}€ para o seu MB WAY... Aceite na App.`;
-            statusDiv.style.color = "#0070ba";
-
-            try {
-                let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&telemovel=${phone}&valor=${VALOR_APP}`);
-                let dados = await resposta.json();
-
-                if (dados.sucesso) {
-                    verificarEstadoPagamento(dados.id_transacao);
-                } else {
-                    statusDiv.innerText = "Erro ao processar o MB WAY. Tente novamente.";
-                    statusDiv.style.color = "red";
-                }
-            } catch (erro) {
-                statusDiv.innerText = "Erro de ligação. Tente mais tarde.";
-                statusDiv.style.color = "red";
-            }
-        }
-
-        async function verificarEstadoPagamento(idTransacao) {
-            const statusDiv = document.getElementById('status_mensagem');
-            
-            let intervalo = setInterval(async () => {
-                try {
-                    let resposta = await fetch(`https://gateway.pt{API_KEY_ATIVA}&id=${idTransacao}`);
-                    let dados = await resposta.json();
-
-                    if (dados.estado === "PAGO") {
-                        clearInterval(intervalo);
-                        statusDiv.innerHTML = `
-                            <div style="background-color: #e6f4ea; border: 1px solid #137333; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left;">
-                                <p style="color: #137333; font-weight: bold; margin-top: 0; font-size: 16px;">✔ Pagamento Confirmado com Sucesso!</p>
-                                
-                                <p style="margin-bottom: 15px;"><strong>Passo 1:</strong> Clique no botão abaixo para descarregar a aplicação:</p>
-                                <a href="https://google.com" target="_blank" style="background-color: #28a745; color: white; border: none; padding: 12px 25px; font-size: 14px; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-bottom: 15px; text-align: center; width: 85%;">Descarregar PicaPonto APK</a>
-                                
-Use code with caution.
+        <!-- SEÇÃO DE DOWNLOAD -->
+        <div class="download-box">
+            <a href="
