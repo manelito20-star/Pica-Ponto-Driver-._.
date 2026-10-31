@@ -1,7 +1,7 @@
-# Pica-Ponto-Driver-._.
+# Pica Ponto Driver TVDE
 Pica ponto para motoristas TVDE
 
-# 🚖 Pica Ponto Driver
+# 🚖 Pica Ponto Driver TVDE
 
 O **Pica Ponto Driver** é uma aplicação Android desenvolvida nativamente em **Jetpack Compose (Material 3)**, concebida especificamente para motoristas TVDE (como operadores na Uber ou Bolt). A aplicação ajuda a gerir o tempo de trabalho em tempo real, cumprir os limites legais de condução, controlar pausas, monitorizar ganhos e exportar relatórios detalhados.
 
