@@ -1,5 +1,6 @@
 # Pica Ponto Driver TVDE
-Pica ponto para motoristas TVDE
+
+Aplicação Android de pica-ponto e controlo de horários para motoristas TVDE (Uber e Bolt) em Portugal.
 
 # 🚖 Pica Ponto Driver TVDE
 
