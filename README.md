@@ -36,8 +36,8 @@ O **Pica Ponto Driver** é uma aplicação Android desenvolvida nativamente em *
 * **Campo oculto de ediçao** No Separador da lei TVDE existe um campo oculto de ediçao no final da página que abre apos 5 cliques, apos abertura coloquem um codigo vosso para que nao esueçam, devera ser sempre usado para reentrar novamente nesse espaço, por questões legais nao pode ficar ficar visivel para ediçao livre.
 
 
-***Ps. Por esquecimento na discrição da app acrescento:
-Atalho rápido no teu telemóvel! ⚡
+⚡Atalho rápido⚡
+
 Já conheces a função de ativação ON/OFF direto na barra de atalhos do telefone? Adiciona este atalho prático e gere tudo num só toque, sem perder tempo a navegar por menus. Simples, rápido e sempre à mão!
 
 ---
